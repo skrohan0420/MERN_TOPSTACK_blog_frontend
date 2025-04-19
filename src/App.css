@@ -32,12 +32,15 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 
@@ -46,6 +49,16 @@ body {
   flex-direction: column;
 }
 
-#root > * {
+#root>* {
   flex: 1;
+}
+
+footer {
+  position: relative;
+  bottom: 0px;
+  width: 100%;
+}
+
+.homeCon{
+  min-height: 100vh;
 }

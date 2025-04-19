@@ -12,14 +12,20 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Layout />}>
-					<Route index element={<Home />} />
-					<Route 
-						path="profile" 
+					<Route
+						index
+						element={
+							<PrivateRoute>
+								<Home />
+							</PrivateRoute>
+						} />
+					<Route
+						path="profile"
 						element={
 							<PrivateRoute>
 								<Profile />
 							</PrivateRoute>
-						} 
+						}
 					/>
 				</Route>
 
