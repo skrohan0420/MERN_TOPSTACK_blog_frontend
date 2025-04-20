@@ -7,14 +7,24 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
     const expand = 'md';
 
+    const navigate = useNavigate();
+
+
+    const logout = () => {
+        // localStorage.removeItem('token');
+        navigate('/login');
+    }
+
+
     return (
         <Navbar expand={expand} className="bg-body-tertiary mb-3">
             <Container fluid>
-                <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
+                <Navbar.Brand href="#">My Bolg App</Navbar.Brand>
                 <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                 <Navbar.Offcanvas
                     id={`offcanvasNavbar-expand-${expand}`}
@@ -36,7 +46,7 @@ function Header() {
                                 <NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/sign-up">Sign-Up</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/logout">Logout</NavDropdown.Item>
+                                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                         <Form className="d-flex">

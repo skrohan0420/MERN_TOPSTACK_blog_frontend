@@ -1,20 +1,54 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { GoEye, GoEyeClosed } from "react-icons/go";
-
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
-
+	const navigate = useNavigate();
 	const handleLogin = (e) => {
 		e.preventDefault();
-		console.log('Email:', email);
-		console.log('Password:', password);
+		let mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+		if (!email) return toast.warning('Email is required!');
+		if (!mailRegex.test(email)) return toast.warning('Email is not valid!');
+		if (!password) return toast.warning('Password is required!')
+
+
+		try {
+
+			// let response = await fetch('https://example.com/api/login', {
+			// 	method: 'POST',
+			// 	headers: {
+			// 		'Content-Type': 'application/json',
+			// 	},
+			// 	body: JSON.stringify(
+			// 		{
+			// 			email,
+			// 			password
+			// 		}
+			// 	),
+			// });
+			// response = await response.json();
+
+			if (true) {
+				toast.success('Login successful!')
+				navigate('/'); 
+			} else {
+				toast.error('Sign up failed. Please try again.');
+			}
+
+		} catch (error) {
+			console.error('Error:', error);
+			return;
+		}
 	};
 
 	return (
 		<Container className="mt-5">
+			<ToastContainer />
 			<Row className="justify-content-md-center">
 				<Col xs={12} md={6}>
 					<h2 className="mb-4 text-center">Login</h2>
@@ -26,7 +60,6 @@ function Login() {
 								placeholder="Enter email"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
-								required
 							/>
 						</Form.Group>
 
@@ -38,15 +71,14 @@ function Login() {
 									placeholder="Password"
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
-									required
 								/>
-									<span
-										onClick={() => setShowPassword(!showPassword)}
-										className="position-absolute top-50 end-0 translate-middle-y me-3"
-										style={{ cursor: 'pointer' }}
-									>
-										{showPassword ? <GoEyeClosed size={20} /> : <GoEye size={20} />}
-									</span>
+								<span
+									onClick={() => setShowPassword(!showPassword)}
+									className="position-absolute top-50 end-0 translate-middle-y me-3"
+									style={{ cursor: 'pointer' }}
+								>
+									{showPassword ? <GoEyeClosed size={20} /> : <GoEye size={20} />}
+								</span>
 							</div>
 						</Form.Group>
 

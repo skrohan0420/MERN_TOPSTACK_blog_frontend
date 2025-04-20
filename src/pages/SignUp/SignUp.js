@@ -1,32 +1,68 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
-	const [error, setError] = useState('');
+	const navigate = useNavigate();
 
-	const handleSignUp = (e) => {
+	const handleSignUp = async (e) => {
 		e.preventDefault();
+		let mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-		if (password !== confirmPassword) {
-			setError('Passwords do not match!');
+		if (!name) return toast.warning('Name is required!');
+		if (!email) return toast.warning('Email is required!');
+		if (!mailRegex.test(email)) return toast.warning('Email is not valid!');
+		if (!password) return toast.warning('Password is required!');
+		if (password.length < 6) return toast.warning('Password must be at least 6 characters long!');
+		if (password !== confirmPassword) return toast.warning('Passwords do not match!');
+
+		try {
+
+			// let response = await fetch('https://example.com/api/signup', {
+			// 	method: 'POST',
+			// 	headers: {
+			// 		'Content-Type': 'application/json',
+			// 	},
+			// 	body: JSON.stringify(
+			// 		{
+			// 			name,
+			// 			email,
+			// 			password
+			// 		}
+			// 	),
+			// });
+			// response = await response.json();
+
+			if (true) {
+				navigate('/');
+				toast.success('Sign-Up successful!')
+			} else {
+				toast.error('Sign up failed. Please try again.');
+			}
+
+		} catch (error) {
+			console.error('Error:', error);
+			toast.error('An error occurred during sign up. Please try again.');
 			return;
 		}
 
-		setError('');
-		console.log('Signup Info:', { name, email, password });
-		// Add sign-up logic here
+
+
+
+
 	};
 
 	return (
 		<Container className="mt-5">
+			<ToastContainer />
 			<Row className="justify-content-md-center">
 				<Col xs={12} md={6}>
 					<h2 className="mb-4 text-center">Sign Up</h2>
-					{error && <Alert variant="danger">{error}</Alert>}
 					<Form onSubmit={handleSignUp}>
 						<Form.Group className="mb-3" controlId="formBasicName">
 							<Form.Label>Name</Form.Label>
@@ -35,7 +71,6 @@ function SignUp() {
 								placeholder="Enter name"
 								value={name}
 								onChange={(e) => setName(e.target.value)}
-								required
 							/>
 						</Form.Group>
 
@@ -46,7 +81,6 @@ function SignUp() {
 								placeholder="Enter email"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
-								required
 							/>
 						</Form.Group>
 
@@ -57,7 +91,6 @@ function SignUp() {
 								placeholder="Password"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
-								required
 							/>
 						</Form.Group>
 
@@ -68,7 +101,6 @@ function SignUp() {
 								placeholder="Confirm Password"
 								value={confirmPassword}
 								onChange={(e) => setConfirmPassword(e.target.value)}
-								required
 							/>
 						</Form.Group>
 
