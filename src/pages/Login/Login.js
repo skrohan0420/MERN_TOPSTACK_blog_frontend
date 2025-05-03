@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { GoEye, GoEyeClosed } from "react-icons/go";
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import config from '../../config/config';
+
 function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
-	const handleLogin = (e) => {
+
+
+	const handleLogin = async (e) => {
 		e.preventDefault();
 		let mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -19,25 +23,26 @@ function Login() {
 
 		try {
 
-			// let response = await fetch('https://example.com/api/login', {
-			// 	method: 'POST',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 	},
-			// 	body: JSON.stringify(
-			// 		{
-			// 			email,
-			// 			password
-			// 		}
-			// 	),
-			// });
-			// response = await response.json();
+			let response = await fetch(`${config.backendUrl}/auth/signin`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(
+					{
+						email,
+						password
+					}
+				),
+			});
+			response = await response.json();
 
-			if (true) {
+			if (response.status) {
 				toast.success('Login successful!')
-				navigate('/'); 
+				navigate('/');
+				localStorage.setItem('token', response.data._id);
 			} else {
-				toast.error('Sign up failed. Please try again.');
+				toast.error(response.message);
 			}
 
 		} catch (error) {
@@ -86,6 +91,13 @@ function Login() {
 							<Button variant="primary" type="submit">
 								Login
 							</Button>
+						</div>
+						<div className="d-grid mt-3">
+							<Link to="/sign-up" style={{ textDecoration: 'none' }}>
+								<Button className='btn btn-secondary'>
+									Sign Up
+								</Button>
+							</Link>
 						</div>
 					</Form>
 				</Col>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import config from '../../config/config';
 
 function SignUp() {
 	const [name, setName] = useState('');
@@ -21,30 +22,34 @@ function SignUp() {
 		if (password.length < 6) return toast.warning('Password must be at least 6 characters long!');
 		if (password !== confirmPassword) return toast.warning('Passwords do not match!');
 
+		// Check if the email is already registered
+		// Assuming you have an API endpoint to check if the email is already registered
 		try {
 
-			// let response = await fetch('https://example.com/api/signup', {
-			// 	method: 'POST',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 	},
-			// 	body: JSON.stringify(
-			// 		{
-			// 			name,
-			// 			email,
-			// 			password
-			// 		}
-			// 	),
-			// });
-			// response = await response.json();
+			let response = await fetch(`${config.backendUrl}/auth/signup`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(
+					{
+						name,
+						email,
+						password
+					}
+				),
+			});
+			response = await response.json();
 
-			if (true) {
+			// Check if the response is successful
+			// Assuming the response contains a status field indicating success or failure
+			if (response.status) {
 				navigate('/');
 				toast.success('Sign-Up successful!')
+				localStorage.setItem('token', response.data._id);
 			} else {
-				toast.error('Sign up failed. Please try again.');
+				toast.error(response.message);
 			}
-
 		} catch (error) {
 			console.error('Error:', error);
 			toast.error('An error occurred during sign up. Please try again.');
@@ -108,6 +113,13 @@ function SignUp() {
 							<Button variant="success" type="submit">
 								Sign Up
 							</Button>
+						</div>
+						<div className="d-grid mt-3">
+							<Link to="/login" style={{ textDecoration: 'none' }}>
+								<Button className='btn btn-secondary'>
+									Login
+								</Button>
+							</Link>
 						</div>
 					</Form>
 				</Col>

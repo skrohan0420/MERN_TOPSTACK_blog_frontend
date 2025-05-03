@@ -4,6 +4,7 @@ import { Container, Form, Button, Row, Col, InputGroup } from 'react-bootstrap';
 import { GoEye, GoEyeClosed } from "react-icons/go";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import config from '../../config/config';
 
 function Profile() {
 	const [name, setName] = useState('');
@@ -15,25 +16,21 @@ function Profile() {
 
 
 		try {
-			// let response = await fetch('https://example.com/api/profile', {
-			// 	method: 'GET',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 	},
-			// });
-			// response = await response.json();
-			// if (response.success) {
-			// 	setName(response.data.name);
-			// 	setEmail(response.data.email);
-			// 	setPassword(response.data.password);
-			// } else {
-			// 	toast.error('Failed to fetch user profile data.');
-			// }
+			let user_id = localStorage.getItem('token'); 
+			let response = await fetch(`${config.backendUrl}/user/${user_id}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+			response = await response.json();
+			if (response.status) {
+				setName(response.data.name);
+				setEmail(response.data.email);
+			} else {
+				toast.error('Failed to fetch user profile data.');
+			}
 
-
-			setName('John Doe');
-			setEmail('Jhon@gmail.com')
-			setPassword('12345678');
 		} catch (error) {
 			console.error('Error fetching user profile:', error);
 			toast.error('Failed to fetch user profile data.');

@@ -1,5 +1,6 @@
 const config = {
-    env : "dev"
+    env : "dev",
+    backendUrl : "http://localhost:8000",
 }
 
 export default config
