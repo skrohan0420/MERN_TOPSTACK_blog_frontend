@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -11,8 +11,19 @@ import { useNavigate } from 'react-router-dom';
 
 function Header() {
     const expand = 'md';
-
     const navigate = useNavigate();
+
+    let token = localStorage.getItem('token');
+
+    let [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+    useEffect(() => {
+        if (token) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, [token]);
 
 
     const logout = () => {
@@ -43,10 +54,10 @@ function Header() {
                                 title="Profile"
                                 id={`offcanvasNavbarDropdown-expand-${expand}`}
                             >
-                                <NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/sign-up">Sign-Up</NavDropdown.Item>
-                                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                                {isLoggedIn && <NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>}
+                                {isLoggedIn && <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>}
+                                {!isLoggedIn && <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>}
+                                {!isLoggedIn && <NavDropdown.Item as={Link} to="/sign-up">Sign-Up</NavDropdown.Item>}
                             </NavDropdown>
                         </Nav>
                         <Form className="d-flex">

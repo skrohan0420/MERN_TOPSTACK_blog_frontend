@@ -3,6 +3,8 @@ import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import config from '../../config/config';
+import Header from '../../componets/Header/Header';
+
 
 function SignUp() {
 	const [name, setName] = useState('');
@@ -63,68 +65,72 @@ function SignUp() {
 	};
 
 	return (
-		<Container className="mt-5">
-			<ToastContainer />
-			<Row className="justify-content-md-center">
-				<Col xs={12} md={6}>
-					<h2 className="mb-4 text-center">Sign Up</h2>
-					<Form onSubmit={handleSignUp}>
-						<Form.Group className="mb-3" controlId="formBasicName">
-							<Form.Label>Name</Form.Label>
-							<Form.Control
-								type="text"
-								placeholder="Enter name"
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-							/>
-						</Form.Group>
+		<>
+			<Header />
+			<Container className="mt-5">
+				<ToastContainer />
 
-						<Form.Group className="mb-3" controlId="formBasicEmail">
-							<Form.Label>Email address</Form.Label>
-							<Form.Control
-								type="email"
-								placeholder="Enter email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</Form.Group>
+				<Row className="justify-content-md-center">
+					<Col xs={12} md={6}>
+						<h2 className="mb-4 text-center">Sign Up</h2>
+						<Form onSubmit={handleSignUp}>
+							<Form.Group className="mb-3" controlId="formBasicName">
+								<Form.Label>Name</Form.Label>
+								<Form.Control
+									type="text"
+									placeholder="Enter name"
+									value={name}
+									onChange={(e) => setName(e.target.value)}
+								/>
+							</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formBasicPassword">
-							<Form.Label>Password</Form.Label>
-							<Form.Control
-								type="password"
-								placeholder="Password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-							/>
-						</Form.Group>
+							<Form.Group className="mb-3" controlId="formBasicEmail">
+								<Form.Label>Email address</Form.Label>
+								<Form.Control
+									type="email"
+									placeholder="Enter email"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+								/>
+							</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formBasicConfirmPassword">
-							<Form.Label>Confirm Password</Form.Label>
-							<Form.Control
-								type="password"
-								placeholder="Confirm Password"
-								value={confirmPassword}
-								onChange={(e) => setConfirmPassword(e.target.value)}
-							/>
-						</Form.Group>
+							<Form.Group className="mb-3" controlId="formBasicPassword">
+								<Form.Label>Password</Form.Label>
+								<Form.Control
+									type="password"
+									placeholder="Password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+								/>
+							</Form.Group>
 
-						<div className="d-grid">
-							<Button variant="success" type="submit">
-								Sign Up
-							</Button>
-						</div>
-						<div className="d-grid mt-3">
-							<Link to="/login" style={{ textDecoration: 'none' }}>
-								<Button className='btn btn-secondary'>
-									Login
+							<Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+								<Form.Label>Confirm Password</Form.Label>
+								<Form.Control
+									type="password"
+									placeholder="Confirm Password"
+									value={confirmPassword}
+									onChange={(e) => setConfirmPassword(e.target.value)}
+								/>
+							</Form.Group>
+
+							<div className="d-grid">
+								<Button variant="success" type="submit">
+									Sign Up
 								</Button>
-							</Link>
-						</div>
-					</Form>
-				</Col>
-			</Row>
-		</Container>
+							</div>
+							<div className="d-grid mt-3">
+								<Link to="/login" style={{ textDecoration: 'none' }}>
+									<Button className='btn btn-secondary'>
+										Login
+									</Button>
+								</Link>
+							</div>
+						</Form>
+					</Col>
+				</Row>
+			</Container>
+		</>
 	);
 }
 

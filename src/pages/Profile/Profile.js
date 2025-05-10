@@ -11,6 +11,8 @@ function Profile() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
+	const [userId, setUserId] = useState(null);
+
 
 	const fetchUserProfile = async () => {
 
@@ -40,13 +42,13 @@ function Profile() {
 
 	useEffect(() => {
 		fetchUserProfile();
-
+		setUserId(localStorage.getItem('token')); // Assuming the user ID is stored in local storage
 	}, [])
 
 
 
 
-	const handleUpdate = (e) => {
+	const handleUpdate = async (e) => {
 		e.preventDefault();
 
 		if (!name) return toast.warning('Name is required!');
@@ -55,24 +57,24 @@ function Profile() {
 
 		try {
 
-			// let response = await fetch('https://example.com/api/profile', {
-			// 	method: 'PUT',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 	},
-			// 	body: JSON.stringify(
-			// 		{
-			// 			name,
-			// 			email,
-			// 			password
-			// 		}
-			// 	),
-			// });
-			// response = await response.json();
-			if (true) {
-				toast.success('Profile updated successfully!');
+			let response = await fetch(`${config.backendUrl}/user/${userId}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(
+					{
+						name,
+						email,
+						password
+					}
+				),
+			});
+			response = await response.json();
+			if (response.status) {
+				toast.success(response.message);
 			} else {
-				toast.error('Failed to update profile.');
+				toast.error(response.message);
 			}
 		} catch (error) {
 			console.error('Error updating profile:', error);
