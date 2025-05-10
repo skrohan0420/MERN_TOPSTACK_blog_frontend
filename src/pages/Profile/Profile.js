@@ -10,6 +10,7 @@ function Profile() {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [age, setAge] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [userId, setUserId] = useState(null);
 
@@ -29,6 +30,7 @@ function Profile() {
 			if (response.status) {
 				setName(response.data.name);
 				setEmail(response.data.email);
+				setAge(response.data.age);
 			} else {
 				toast.error('Failed to fetch user profile data.');
 			}
@@ -66,6 +68,7 @@ function Profile() {
 					{
 						name,
 						email,
+						age,
 						password
 					}
 				),
@@ -106,6 +109,16 @@ function Profile() {
 								placeholder="Enter your email"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
+							/>
+						</Form.Group>
+
+						<Form.Group className="mb-3" controlId="formEmail">
+							<Form.Label>Age</Form.Label>
+							<Form.Control
+								type="number"
+								placeholder="Enter your Age"
+								value={age}
+								onChange={(e) => setAge(e.target.value)}
 							/>
 						</Form.Group>
 
