@@ -4,13 +4,19 @@ import config from '../../config/config'
 
 
 function Home() {
-
-
     const [data, setData] = useState(null)
+    const token = localStorage.getItem('token')
 
     const fetchBlogs = async () => {
         try {
-            let response = await fetch(`${config.backendUrl}/blog`)
+            let response = await fetch(`${config.backendUrl}/blog`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': `Bearer ${token}`
+                },
+            }
+            )
             response = await response.json()
             if (!response.status) {
                 console.error('Error fetching blogs:', response.message)

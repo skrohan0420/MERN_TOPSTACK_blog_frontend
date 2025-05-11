@@ -13,17 +13,16 @@ function Profile() {
 	const [age, setAge] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [userId, setUserId] = useState(null);
-
+	const token = localStorage.getItem('token');
 
 	const fetchUserProfile = async () => {
-
-
 		try {
-			let user_id = localStorage.getItem('token'); 
+			let user_id = localStorage.getItem('userId');
 			let response = await fetch(`${config.backendUrl}/user/${user_id}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
+					'authorization': `Bearer ${token}`
 				},
 			});
 			response = await response.json();
@@ -44,7 +43,7 @@ function Profile() {
 
 	useEffect(() => {
 		fetchUserProfile();
-		setUserId(localStorage.getItem('token')); // Assuming the user ID is stored in local storage
+		setUserId(localStorage.getItem('userId')); // Assuming the user ID is stored in local storage
 	}, [])
 
 
@@ -63,6 +62,7 @@ function Profile() {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
+					'authorization': `Bearer ${token}`
 				},
 				body: JSON.stringify(
 					{

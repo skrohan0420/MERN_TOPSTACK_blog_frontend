@@ -28,6 +28,7 @@ function Header() {
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
         navigate('/login');
     }
 
